@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .age {
+            font-size: 1.8em;
+            color: #4ecdc4;
+            margin: 10px 0;
+        }
+
+        .message {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .balloons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .balloon {
+            width: 60px;
+            height: 80px;
+            background: red;
+            border-radius: 50%;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: inset -10px -10px 10px rgba(0,0,0,0.1);
+        }
+
+        .balloon:before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: #666;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .balloon1 { background: #ff6b6b; animation-delay: 0s; }
+        .balloon2 { background: #4ecdc4; animation-delay: 0.5s; }
+        .balloon3 { background: #ffe66d; animation-delay: 1s; }
+        .balloon4 { background: #c06c84; animation-delay: 1.5s; }
+        .balloon5 { background: #6c5b7b; animation-delay: 2s; }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 20px 0;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background: red;
+            top: -100px;
+            opacity: 0.7;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .hidden-message {
+            display: none;
+            background: #4ecdc4;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 1.3em;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .photo-placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3em;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="confetti" id="confetti"></div>
+    
+    <div class="card">
+        <div class="photo-placeholder">
+            🎂
+        </div>
+        
+        <h1>С Днём Рождения!</h1>
+        <div class="age" id="ageDisplay"></div>
+        
+        <div class="balloons">
+            <div class="balloon balloon1"></div>
+            <div class="balloon balloon2"></div>
+            <div class="balloon balloon3"></div>
+            <div class="balloon balloon4"></div>
+            <div class="balloon balloon5"></div>
+        </div>
+        
+        <div class="message" id="mainMessage">
+             Арина!<br><br>
+            Желаю тебе счастья, здоровья, успехов во всех начинаниях!<br>
+            Пусть каждый день приносит радость и улыбки!
+        </div>
+        
+        <button onclick="showSurprise()">Нажми для сюрприза! 🎁</button>
+        <button onclick="playMusic()" style="background: linear-gradient(135deg, #ff6b6b 0%, #c06c84 100%); margin-left: 10px;">🎵 Включить музыку</button>
+        
+        <div class="hidden-message" id="surprise">
+            🎉 СЮРПРИЗ! 🎉<br>
+            Ты самый лучший человек на свете!<br>
+            Пусть исполняются все мечты! 🌟
+        </div>
+    </div>
+
+    <audio id="birthdayMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <script>
+        // Функция для вычисления возраста (если нужно)
+        function calculateAge(birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        // Установка возраста (замените дату на нужную)
+        // Пример: calculateAge('1990-05-15')
+        const age = calculateAge('2006-02-23'); // Замените дату!
+        document.getElementById('ageDisplay').textContent = `Тебе ${age} лет!`;
+
+        // Функция для создания конфетти
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.classList.add('confetti-piece');
+                
+                // Случайные цвета
+                const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#c06c84', '#6c5b7b', '#667eea'];
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Случайное положение
+                piece.style.left = Math.random() * 100 + '%';
+                
+                // Случайная задержка анимации
+                piece.style.animationDelay = Math.random() * 5 + 's';
+                
+                // Случайная длительность анимации
+                piece.style.animationDuration = Math.random() * 3 + 2 + 's';
+                
+                confettiContainer.appendChild(piece);
+            }
+        }
+
+        // Функция для показа сюрприза
+        function showSurprise() {
+            const surprise = document.getElementById('surprise');
+            surprise.style.display = 'block';
+            
+            // Создаем дополнительное конфетти
+            createConfetti();
+            
+            // Прокручиваем к сюрпризу
+            surprise.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Функция для воспроизведения музыки
+        function playMusic() {
+            const music = document.getElementById('birthdayMusic');
+            music.play().catch(e => console.log('Автовоспроизведение заблокировано браузером'));
+        }
+
+        // Создаем конфетти при загрузке
+        window.onload = function() {
+            createConfetti();
+            
+            // Персонализация (замените [Имя] на нужное имя)
+            const messageElement = document.getElementById('mainMessage');
+            messageElement.innerHTML = messageElement.innerHTML.replace('[Имя]', 'Друг');
+        };
+    </script>
+</body>
+</html>
